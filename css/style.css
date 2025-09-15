@@ -224,6 +224,81 @@ nav ul li a:hover {
   padding-left: 20px;
 }
 
+.workspace {
+  display: flex;
+  flex: 1;
+  margin-top: 20px;  
+  margin-bottom: 20px; 
+}
+
+.sidebar {
+  width: 200px;
+  background: #f0f0f0;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 15px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 10px;
+}
+
+.sidebar button {
+  width: 100%;
+  padding: 10px;
+  background: #0077b6;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.sidebar button:hover {
+  background: #0096c7;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  background: #fff;
+  color: black;
+  border-left: 1px solid #ccc;
+  box-sizing: border-box;
+  overflow-y: auto;
+  border-radius: 12px;
+}
+
+.content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.content th, .content td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.content th {
+  background-color: #0077b6;
+  color: white;
+}
+
+.content tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.content tr:hover {
+  background-color: #d0e7ff;
+}
+
 @media (max-width: 768px) {
   nav ul {
     display: none;
