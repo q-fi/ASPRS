@@ -1,0 +1,266 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: url('../img/back1.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: rgb(255, 255, 255);
+}
+
+footer {
+  background: url('../img/footer.png') no-repeat center center;
+  background-size: 100% 100%;
+  color: rgb(156, 156, 156);
+  text-align: center;
+  padding: 10px 10px;
+  margin-top: auto;
+}
+
+.main {
+  flex: 1;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;     
+  text-align: center;
+  margin: auto;
+  display: flex;
+  margin: 50px auto; 
+  max-width: 1200px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 16px;
+}
+
+.main h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.main p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  max-width: 700px;
+  margin-bottom: 15px;
+}
+
+.main p:nth-of-type(2){
+    margin-top: 400px;
+}
+
+nav {
+  background: rgba(57, 162, 237, 0.4); 
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+nav .logo {
+  font-weight: bold;
+  font-style: italic;
+  font-size: 18px;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav ul li {
+  margin-left: 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+.burger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.burger div {
+  width: 25px;
+  height: 3px;
+  background: white;
+  margin: 4px;
+  transition: 0.3s;
+}
+
+.about-title { 
+  text-align: center;
+  margin-top: 20px; 
+  font-size: 36px; 
+}
+
+.about-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 60px; 
+  margin: 80px auto; 
+  max-width: 1200px;
+  padding: 40px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+}
+
+.left-section {
+  flex: 1;
+}
+
+.intro-text {
+  text-align: left;
+  font-size: 1.4rem; 
+  margin-bottom: 25px;
+}
+
+.text-section p {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+.image-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slider {
+  width: 100%;
+  max-width: 500px; 
+  height: 300px;     
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 4px solid white;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.image-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.slider-controls {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.slider-controls button {
+  background: rgba(0,119,204,0.8);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 18px;
+}
+
+.slider-controls button:hover {
+  background: rgba(0,119,204,1);
+}
+
+.outro-text {
+  text-align: center;
+  margin: 60px auto 20px;
+  max-width: 1000px;
+  font-size: 1.3rem;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;     
+  text-align: center;
+  
+  max-width: 800px;
+  width: 90%;              
+  margin: 50px auto;       
+  
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 16px;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.ch1 {
+  text-align: center;
+  font-size: 3rem; 
+  margin-bottom: 20px;
+}
+
+.cp1 {
+  text-align: center;
+  font-size: 1.6rem; 
+  margin-bottom: 20px;
+}
+
+.cul1 {
+  text-align: left;
+  font-size: 1.2rem; 
+  line-height: 1.6;
+  padding-left: 20px;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    display: none;
+    flex-direction: column;
+    background: rgba(0, 119, 204, 0.9);
+    position: absolute;
+    top: 60px;
+    right: 0;
+    width: 200px;
+    padding: 10px;
+  }
+  nav ul.show {
+    display: flex;
+  }
+  .burger {
+    display: flex;
+  }
+  .about-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .left-section {
+    max-width: 100%;
+  }
+  .intro-text {
+    text-align: center;
+  }
+  .ch1 {
+    font-size: 2.2rem;
+  }
+
+  .cp1 {
+    font-size: 1.2rem;
+  }
+
+  .cul1 {
+    font-size: 1rem;
+  }
+}
