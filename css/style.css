@@ -1,3 +1,4 @@
+/* ================== Загальні стилі ================== */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -18,6 +19,35 @@ footer {
   margin-top: auto;
 }
 
+.main {
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 50px auto;
+  max-width: 1200px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 16px;
+}
+
+.main h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.main p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  max-width: 700px;
+  margin-bottom: 15px;
+}
+
+.main p:nth-of-type(2){
+  margin-top: 400px;
+}
+
+/* ================== Навігація ================== */
 nav {
   background: rgba(57, 162, 237, 0.4);
   color: white;
@@ -38,8 +68,13 @@ nav .logo {
 
 nav ul {
   list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
-  gap: 20px;
+}
+
+nav ul li {
+  margin-left: 20px;
 }
 
 nav ul li a {
@@ -66,19 +101,142 @@ nav ul li a:hover {
   transition: 0.3s;
 }
 
+/* ================== Про проект ================== */
+.about-title {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 36px;
+}
+
+.about-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 60px;
+  margin: 80px auto;
+  max-width: 1200px;
+  padding: 40px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+}
+
+.left-section {
+  flex: 1;
+}
+
+.intro-text {
+  text-align: left;
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+}
+
+.text-section p {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+}
+
+.image-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.slider {
+  width: 100%;
+  max-width: 500px;
+  height: 300px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 4px solid white;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.image-section img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.slider-controls {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.slider-controls button {
+  background: rgba(0,119,204,0.8);
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 18px;
+}
+
+.slider-controls button:hover {
+  background: rgba(0,119,204,1);
+}
+
+.outro-text {
+  text-align: center;
+  margin: 60px auto 20px;
+  max-width: 1000px;
+  font-size: 1.3rem;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  max-width: 800px;
+  width: 90%;
+  margin: 50px auto;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 16px;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.ch1 {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.cp1 {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+}
+
+.cul1 {
+  text-align: left;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  padding-left: 20px;
+}
+
+/* ================== Workspace ================== */
 .workspace {
   display: flex;
   flex: 1;
-  margin: 20px auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .sidebar {
   width: 200px;
-  background: rgba(0, 0, 0, 0.6);
+  background: #f0f0f0;
   padding: 20px;
   box-sizing: border-box;
   border-radius: 15px;
-  color: white;
 }
 
 .sidebar ul {
@@ -120,14 +278,17 @@ nav ul li a:hover {
   border-collapse: collapse;
   margin-top: 15px;
   font-family: 'Segoe UI', Arial, sans-serif;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.content th, .content td {
-  padding: 8px 6px;
+.content th,
+.content td {
+  padding: 14px 12px;
   border: 1px solid #ddd;
   text-align: center;
   vertical-align: middle;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .content th {
@@ -148,14 +309,62 @@ nav ul li a:hover {
 .content input[type="text"],
 .content input[type="number"] {
   width: 100%;
-  max-width: 120px;
-  padding: 4px 6px;
+  max-width: 140px;
+  padding: 8px 10px;
   border: 1px solid #bbb;
   border-radius: 6px;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   background: #fff;
   transition: all 0.2s;
+}
+
+.content input[type="text"]:focus,
+.content input[type="number"]:focus {
+  outline: none;
+  border-color: #0077b6;
+  box-shadow: 0 0 5px rgba(0,119,182,0.5);
+}
+
+.nameInput, .surnameInput {
+  width: 90%;
+  max-width: 200px;
+  padding: 8px 12px;
+  margin: 4px 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgb(0, 0, 0);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  text-align: center;
+  border: 2px solid transparent; /* завжди 2px */
+  box-sizing: border-box; /* враховуємо бордер у ширину */
+}
+
+.nameInput:focus, .surnameInput:focus,
+.nameInput:hover, .surnameInput:hover {
+  border-color: #39a2ed;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 10px rgba(57, 162, 237, 0.5);
+}
+
+.nameInput::placeholder, .surnameInput::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.course-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.course-row b {
+  color: #0077b6;
+  min-width: 110px;
+  text-align: left;
 }
 
 .content .btn {
@@ -201,23 +410,15 @@ nav ul li a:hover {
   transform: scale(1.05);
 }
 
+/* ================== Hover на весь рядок студента ================== */
+.content tr.student-row:hover {
+  border: 2px solid #39edb7;
+  border-radius: 45px;
+  box-sizing: border-box;
+}
+
+/* ================== Адаптивність ================== */
 @media (max-width: 768px) {
-  .workspace {
-    flex-direction: column;
-    margin: 10px auto;
-  }
-
-  .sidebar {
-    width: 100%;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-around;
-  }
-  .sidebar ul {
-    display: flex;
-    gap: 10px;
-  }
-
   nav ul {
     display: none;
     flex-direction: column;
@@ -228,37 +429,180 @@ nav ul li a:hover {
     width: 200px;
     padding: 10px;
   }
+
   nav ul.show {
     display: flex;
   }
+
   .burger {
     display: flex;
   }
 
-  .content table, .content thead, .content tbody, .content th, .content td, .content tr {
+  .about-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .left-section {
+    max-width: 100%;
+  }
+
+  .intro-text {
+    text-align: center;
+  }
+
+  .ch1 {
+    font-size: 2.2rem;
+  }
+
+  .cp1 {
+    font-size: 1.2rem;
+  }
+
+  .cul1 {
+    font-size: 1rem;
+  }
+
+  .workspace {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    border-radius: 16px;
+  }
+
+  .sidebar ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .sidebar button {
+    flex: 1 1 auto;
+    max-width: 200px;
+  }
+
+  .content {
+    width: 100%;
+    border-left: none;
+    border-radius: 16px;
+    overflow-x: hidden;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  /* ==== Вертикальна таблиця === */
+  .content table, 
+  .content thead, 
+  .content tbody, 
+  .content th, 
+  .content td, 
+  .content tr {
     display: block;
     width: 100%;
   }
+
   .content thead {
     display: none;
   }
+
   .content tr {
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 12px;
     padding: 10px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255,255,255,0.95);
   }
+
   .content td {
-    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     padding: 6px 4px;
-    font-size: 13px;
     border: none;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    box-sizing: border-box;
+    flex-wrap: wrap;
   }
-  .content td:before {
+
+  .content td:last-child {
+    border-bottom: none;
+  }
+
+  .content td::before {
     content: attr(data-label);
     font-weight: bold;
-    display: inline-block;
-    width: 120px;
+    color: #0077b6;
+    margin-bottom: 4px;
+  }
+
+  .nameInput,
+  .surnameInput {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem;
+    margin: 4px 0;
+    padding: 6px 10px;
+  }
+
+  .content .btn {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-top: 6px;
+  }
+
+  #addStudentBtn {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    font-size: 15px;
+  }
+
+  .course-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    flex-shrink: 1;
+    word-wrap: break-word;
+  }
+
+  .course-row b {
+    text-align: center;
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+
+  .course-row input {
+    width: 95%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .attendance-section {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .attendance-section input {
+    width: 95%;
+    max-width: 100%;
+  }
+
+  .content td i {
+    display: block;
+    width: 100%;
+    text-align: center;
+    word-wrap: break-word;
   }
 }

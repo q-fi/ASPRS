@@ -15,7 +15,7 @@ function renderTable() {
     <button id="addStudentBtn">Додати студента</button>
     <table>
       <thead>
-        <tr>
+        <tr class="student-row">
           <th>ID</th>
           <th>Ім'я</th>
           <th>Прізвище</th>
@@ -28,7 +28,7 @@ function renderTable() {
 
   sorted.forEach(s => {
     html += `
-      <tr>
+      <tr class="student-row">
         <td data-label="ID">${s.id}</td>
         <td data-label="Ім'я"><input class="nameInput" data-id="${s.id}" value="${escapeHTML(s.name)}"></td>
         <td data-label="Прізвище"><input class="surnameInput" data-id="${s.id}" value="${escapeHTML(s.surname)}"></td>
