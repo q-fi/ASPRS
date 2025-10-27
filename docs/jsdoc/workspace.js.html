@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: workspace.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: workspace.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file workspace.js
+ * @description
+ * Основний модуль фронтенду для сторінки керування студентами
+ * в АСПРС (Автоматизованій системі підрахунку рейтингу студента).
+ * 
+ * Скрипт відповідає за відображення, додавання, редагування,
+ * видалення студентів і керування оцінками та відвідуваністю.
+ */
+
+const content = document.querySelector('section.content');
+
+/**
+ * Масив даних студентів, отриманих із сервера.
+ * @type {Array&lt;Object>}
+ */
+let studentsData = [];
+
+/**
+ * Екранує HTML-символи, щоб уникнути XSS.
+ * @param {string} s - Вхідний рядок для обробки.
+ * @returns {string} Безпечний рядок.
+ */
+function escapeHTML(s) {
+  return String(s || '').replace(/[&amp;&lt;>"']/g, c => ( {
+    '&amp;': '&amp;amp;', '&lt;': '&amp;lt;', '>': '&amp;gt;', '"': '&amp;quot;', "'": '&amp;#39;'
+  })[c]);
+}
+
+/**
+ * Створює HTML-таблицю зі списком студентів і відображає її на сторінці.
+ * @returns {void}
+ */
+function renderTable() {
+  const sorted = [...studentsData].sort((a, b) => a.id - b.id);
+
+  let html = `
+    &lt;button id="addStudentBtn">Додати студента&lt;/button>
+    &lt;table>
+      &lt;thead>
+        &lt;tr class="student-row">
+          &lt;th>ID&lt;/th>
+          &lt;th>Ім'я&lt;/th>
+          &lt;th>Прізвище&lt;/th>
+          &lt;th>Курси / Оцінки / Відвідуваність&lt;/th>
+          &lt;th>Дії&lt;/th>
+        &lt;/tr>
+      &lt;/thead>
+      &lt;tbody>
+  `;
+
+  sorted.forEach(s => {
+    html += `
+      &lt;tr class="student-row">
+        &lt;td data-label="ID">${s.id}&lt;/td>
+        &lt;td data-label="Ім'я">&lt;input class="nameInput" data-id="${s.id}" value="${escapeHTML(s.name)}">&lt;/td>
+        &lt;td data-label="Прізвище">&lt;input class="surnameInput" data-id="${s.id}" value="${escapeHTML(s.surname)}">&lt;/td>
+        &lt;td data-label="Курси / Оцінки / Відвідуваність">
+    `;
+
+    if (s.courses &amp;&amp; s.courses.length > 0) {
+      s.courses.forEach(c => {
+        const grade = c.grade ?? '';
+        const attended = c.attended ?? '';
+        const total = c.total ?? '';
+        html += `
+          &lt;div class="course-row" style="margin-bottom:6px;">
+            &lt;b>${escapeHTML(c.course)}&lt;/b>
+            &amp;nbsp;|&amp;nbsp; Оцінка:
+            &lt;input type="number" min="0" max="100" class="gradeInput" data-student="${s.id}" data-course="${c.course_id}" value="${grade}">
+            &amp;nbsp;|&amp;nbsp; Відвідуваність:
+            &lt;input type="number" min="0" class="attInput" data-student="${s.id}" data-course="${c.course_id}" value="${attended}"> /
+            &lt;input type="number" min="0" class="totalInput" data-student="${s.id}" data-course="${c.course_id}" value="${total}">
+          &lt;/div>
+        `;
+      });
+    } else {
+      html += `&lt;i>Немає записів про курси&lt;/i>`;
+    }
+
+    html += `
+        &lt;/td>
+        &lt;td data-label="Дії">
+          &lt;button class="saveBtn btn" data-id="${s.id}">Зберегти&lt;/button>
+          &lt;button class="deleteBtn btn danger" data-id="${s.id}">Видалити&lt;/button>
+        &lt;/td>
+      &lt;/tr>
+    `;
+  });
+
+  html += '&lt;/tbody>&lt;/table>';
+  content.innerHTML = html;
+
+  attachHandlers();
+}
+
+/**
+ * Завантажує список студентів із бекенду через REST API.
+ * @async
+ * @returns {Promise&lt;void>} Проміс без значення після завантаження.
+ */
+async function loadStudents() {
+  try {
+    const res = await fetch('http://localhost:3000/api/students/full');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    studentsData = await res.json();
+    renderTable();
+  } catch (err) {
+    content.innerHTML = `&lt;p style="color:red;">Помилка завантаження: ${err}&lt;/p>`;
+    console.error(err);
+  }
+}
+
+/**
+ * Додає обробники подій для кнопок «Зберегти», «Видалити» і «Додати студента».
+ * @returns {void}
+ */
+function attachHandlers() {
+  // Видалення студента
+  document.querySelectorAll('.deleteBtn').forEach(btn => {
+    btn.onclick = async () => {
+      const id = btn.dataset.id;
+      if (!confirm('Ви впевнені, що хочете видалити студента?')) return;
+      try {
+        const res = await fetch(`http://localhost:3000/api/students/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Не вдалося видалити');
+        await loadStudents();
+      } catch (e) {
+        alert('Помилка при видаленні: ' + e);
+      }
+    };
+  });
+// Збереження змін
+  document.querySelectorAll('.saveBtn').forEach(btn => {
+    btn.onclick = async () => {
+      const id = btn.dataset.id;
+      btn.disabled = true;
+      const origText = btn.textContent;
+      btn.textContent = 'Зберігаємо...';
+
+      try {
+        const name = document.querySelector(`.nameInput[data-id="${id}"]`).value.trim();
+        const surname = document.querySelector(`.surnameInput[data-id="${id}"]`).value.trim();
+         // Оновлення ПІБ студента
+        await fetch(`http://localhost:3000/api/students/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, surname })
+        });
+// Збір оцінок і відвідуваності
+        const gradeInputs = Array.from(document.querySelectorAll(`.gradeInput[data-student="${id}"]`));
+        const payloads = gradeInputs.map(g => {
+          const courseId = Number(g.dataset.course);
+          const gradeVal = g.value === '' ? null : Number(g.value);
+          const attended = Number(document.querySelector(`.attInput[data-student="${id}"][data-course="${courseId}"]`).value || 0);
+          const total = Number(document.querySelector(`.totalInput[data-student="${id}"][data-course="${courseId}"]`).value || 0);
+          return { course_id: courseId, grade: gradeVal, attended, total };
+        });
+// Видалення старих даних перед оновленням
+        await fetch(`http://localhost:3000/api/students/${id}/grades`, { method: 'DELETE' });
+        await fetch(`http://localhost:3000/api/students/${id}/attendance`, { method: 'DELETE' });
+ // Додавання нових записів
+        for (const p of payloads) {
+          if (p.grade !== null &amp;&amp; p.grade !== '') {
+            await fetch('http://localhost:3000/api/grades', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ student_id: Number(id), course_id: p.course_id, grade: p.grade })
+            });
+          }
+          if (p.total > 0) {
+            await fetch('http://localhost:3000/api/attendance', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ student_id: Number(id), course_id: p.course_id, attended: p.attended, total: p.total })
+            });
+          }
+        }
+
+        await loadStudents();
+      } catch (e) {
+        alert('Помилка збереження: ' + e);
+        console.error(e);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = origText;
+      }
+    };
+  });
+
+  // Додавання нового студента
+  const addBtn = document.getElementById('addStudentBtn');
+  if (addBtn) {
+    addBtn.onclick = async () => {
+      const name = prompt("Ім'я нового студента:");
+      const surname = prompt("Прізвище нового студента:");
+      if (!name || !surname) return alert('Ім\'я і прізвище обов\'язкові!');
+      try {
+        await fetch('http://localhost:3000/api/students', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, surname })
+        });
+        await loadStudents();
+      } catch (e) {
+        alert('Помилка при додаванні: ' + e);
+      }
+    };
+  }
+}
+/**
+ * Обробляє натискання на вкладку «Студенти» для завантаження списку.
+ * @event
+ */
+const tabStudents = document.getElementById('tabStudents');
+if (tabStudents) {
+  tabStudents.onclick = (e) => {
+    e.preventDefault();
+    loadStudents();
+  };
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Events</h3><ul><li><a href="global.html#event:tabStudents">tabStudents</a></li></ul><h3>Global</h3><ul><li><a href="global.html#attachHandlers">attachHandlers</a></li><li><a href="global.html#escapeHTML">escapeHTML</a></li><li><a href="global.html#loadStudents">loadStudents</a></li><li><a href="global.html#renderTable">renderTable</a></li><li><a href="global.html#studentsData">studentsData</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Oct 27 2025 12:14:08 GMT+0200 (за східноєвропейським стандартним часом)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
